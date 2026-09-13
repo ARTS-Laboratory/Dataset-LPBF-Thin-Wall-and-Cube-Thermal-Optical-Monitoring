@@ -1,6 +1,5 @@
-# Data : Test 1
+<img width="1426" height="77" alt="image" src="https://github.com/user-attachments/assets/0157168a-423c-44e5-9845-3fee726a3d61" /># Data : Test 1
 
-Test conducted on 4th April 2026. These layer images contains all the images of thin walls printed during test layer by layer.
+Test conducted on 4th April 2026. These layer images contain all the images of thin walls printed during the test, layer by layer.
 
-Link to the QNDE SMASYS 2026 paper : 
-...
+This data was used in the 2026 ASME-SMASIS paper "In-situ Layer-wise Geometry Extraction of Thin-wall 316l Structures Fabricated by LaserPowder Bed Fusion".
