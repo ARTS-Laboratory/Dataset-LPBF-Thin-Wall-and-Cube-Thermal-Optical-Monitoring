@@ -4,4 +4,4 @@
 
 Test conducted on 4th April 2026. These layer images contain all the images of thin walls printed during the test, layer by layer.
 
-This data was used in the 2026 ASME-SMASIS paper "In-situ Layer-wise Geometry Extraction of Thin-wall 316l Structures Fabricated by Laser Powder Bed Fusion".
+This data was used in the 2026 ASME-SMASIS paper "In-situ Layer-wise Geometry Extraction of Thin-wall 316L Structures Fabricated by Laser Powder Bed Fusion".
