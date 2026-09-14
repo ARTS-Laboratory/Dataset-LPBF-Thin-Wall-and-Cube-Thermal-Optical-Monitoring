@@ -1,6 +1,10 @@
 # Dataset LPBF Thin Walls
 This dataset contains LPBF thin wall project layerwise images and other project files
 
+Everything here was moved to "https://github.com/ARTS-Laboratory/Paper-2026-Geometry-Thin-Wall-Laser-Powder-Bed-Fusion".
+
+Will likely delete this repo in the future. 
+
 ## References
 
 ...
