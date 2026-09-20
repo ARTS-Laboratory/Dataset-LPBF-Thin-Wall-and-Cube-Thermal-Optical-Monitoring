@@ -1,4 +1,4 @@
-# Dataset-LPBF-Thin-Wall-and-Cube-Thermal-Optical-Monitoring
+# Dataset LPBF Thin Wall and Cube Thermal Optical Monitoring
 This dataset contains in situ thermal and layerwise thermal and optical images (as well as other project files) obtained during the in situ monitoring of an LPBF build session.
 
 <p align="center">
