@@ -1,21 +1,37 @@
 # Dataset LPBF Thin Walls
 This dataset contains LPBF thin-wall project layerwise images and other project files
 
+<p align="center">
+<img src="media/setup_2026.png" alt="drawing" width="800"/> <br> 
+The laser vibrometer setup of in situ systems for laser-based powder bed fusion additive manufacturing.  
+</p>
+<p align="center">
+</p>
 
+## [System Development](system_development)
+The system (hardware and software) design for the project.
 
-...
+## [General Use](general_use)
+Basic accessories for the system that can be used with any of the covers.
 
 ## Licensing and Citation
+This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License [cc-by-sa 4.0].
 
-[![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa]
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
 
-This work is licensed under a
-[Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
+#### Bibtex
 
-[cc-by-sa]: http://creativecommons.org/licenses/by-sa/4.0/
-[cc-by-sa-image]: https://licensebuttons.net/l/by-sa/4.0/88x31.png
-[cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
+@Misc{ARTSLabDatasetLPBFThin,  
+  author = {{ARTS-L}ab},  
+  title  = {Dataset LPBF Thin Walls},  
+  groups = {{ARTS-L}ab},  
+  note = {Accessed: 20xx-xx-xx},  
+  url    = {https://github.com/Dataset-LPBF-thin-walls},  
+}  
 
-Cite as:
-
-@Misc{...
+<p align="center">
+<img src="media/QR.png" alt="drawing" width="200"/>
+</p>
+<p align="center">
+QR code for repo.
+</p>
