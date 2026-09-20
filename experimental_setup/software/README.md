@@ -1,1 +1,8 @@
-This folder contains the LabVIEW VI used for data aquisition.
+\# Software
+
+
+
+LabVIEW programs, camera acquisition scripts, and other software used to operate the experimental system and collect the data.
+
+
+
