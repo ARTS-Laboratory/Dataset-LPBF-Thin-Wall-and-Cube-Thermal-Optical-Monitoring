@@ -1,1 +1,3 @@
-This folder contains test data from optical and thermal camera used simultaneously. 
+# Media 
+
+This folder contains images for the front page of the repo.
