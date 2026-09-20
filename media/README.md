@@ -1,1 +1,3 @@
-This folder contains test data from optical and thermal camera used simultaneously. 
+# Medaia 
+
+This folder contains images for the fron page of the repo.
