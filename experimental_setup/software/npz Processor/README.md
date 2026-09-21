@@ -1,8 +1,10 @@
-NPZ Thermal Image Processing
+NPZ Thermal Image Processing :
+
 This utility exports timestamped thermal PNG images, from the `.npz` recordings created by the LabVIEW/Python acquisition system.
 
 
-Usage
+Usage :
+
 Keep `npzProcessing.py` and `functionFIles.py` in the same directory.
 Confirm that `INPUT_PATH` in `npzProcessing.py` points to the recording
 folder containing the `.npz` files.
@@ -17,7 +19,8 @@ Run:
    python npzProcessing.py
    ```
 
-Output
+Output:
+
 Each NPZ receives its own folder under `Images`. The folder contains:
 numbered, timestamped `.png` thermal images;
 `image_index.csv`, containing the target time, actual capture time, timing
