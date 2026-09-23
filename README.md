@@ -2,7 +2,7 @@
 This dataset contains in situ thermal and layerwise thermal and optical images (as well as other project files) obtained during the in situ monitoring of an LPBF build session.
 
 <p align="center">
-<img src="media/rubber_duck.png" alt="drawing" width="400"/> <br> 
+<img src="media/experimental_setup.png" alt="drawing" width="400"/> <br> 
 Setup of the in situ monitoring system for laser-based powder bed fusion additive manufacturing.  
 </p>
 <p align="center">
