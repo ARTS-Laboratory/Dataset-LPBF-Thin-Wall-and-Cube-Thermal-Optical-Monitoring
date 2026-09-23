@@ -1,13 +1,13 @@
 from pathlib import Path
 
-import functionFIles as thermal
+import functionFiles as thermal
 
 
 # ---------------------------------------------------------------------------
 # USER SETTINGS
 # ---------------------------------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent
-INPUT_PATH = BASE_DIR.parent / "Record" / "Recordings"
+INPUT_PATH = BASE_DIR.parent / "Recordings"
 OUTPUT_IMAGE_PATH = BASE_DIR / "Images"
 OUTPUT_CSV_PATH = BASE_DIR / "CSV"
 

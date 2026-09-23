@@ -218,28 +218,30 @@ def saveImages(
     for image_number, (frame_index, target_s, frame) in enumerate(
         zip(indices, target_times_s, selected), start=1
     ):
-        actual_s = float(elapsed_s[frame_index])
+        actual_s = int(elapsed_s[frame_index])
         normalized = np.clip((frame - low_c) / (high_c - low_c), 0.0, 1.0)
         normalized = np.nan_to_num(normalized, nan=0.0)
         image_8bit = np.rint(normalized * 255.0).astype(np.uint8)
         filename = (
-            f"thermal_{image_number:06d}_"
-            f"target_{target_s:010.3f}s_actual_{actual_s:010.3f}s.png"
+            f"thermal_{actual_s:05d}.png"
+            # f"thermal_{image_number:05d}_"
+            # "target_{target_s:010.3f}s_actual_{actual_s:010.3f}s.png"
+
         )
         image_path = folder / filename
         _write_inferno_png(image_8bit, image_path)
 
         rows.append(
             {
-                "image_number": image_number,
-                "source_frame_index": int(frame_index),
-                "target_time_s": f"{target_s:.9f}",
-                "actual_time_s": f"{actual_s:.9f}",
-                "timing_error_s": f"{actual_s - target_s:.9f}",
-                "minimum_temperature_c": f"{np.nanmin(frame):.6f}",
-                "maximum_temperature_c": f"{np.nanmax(frame):.6f}",
-                "mean_temperature_c": f"{np.nanmean(frame):.6f}",
-                "png_file": filename,
+                # "image_number": image_number,
+                # "source_frame_index": int(frame_index),
+                # "target_time_s": f"{target_s:.9f}",
+                "actual_time_s": f"{actual_s:05d}",
+                # "timing_error_s": f"{actual_s - target_s:.9f}",
+                # "minimum_temperature_c": f"{np.nanmin(frame):.6f}",
+                # "maximum_temperature_c": f"{np.nanmax(frame):.6f}",
+                # "mean_temperature_c": f"{np.nanmean(frame):.6f}",
+                # "png_file": filename,
             }
         )
 
