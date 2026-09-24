@@ -1,4 +1,4 @@
-# Data
+# Test #1
 
 This folder contains the experimental monitoring data collected during the LPBF builds.
 
