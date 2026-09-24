@@ -1,1 +1,33 @@
+# ====================================================================
+# macOS System Files
+# ====================================================================
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ====================================================================
+# Python Bytecode and Cache
+# ====================================================================
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ====================================================================
+# Microsoft Outlook & Office Temporary / Cache Files
+# ====================================================================
+# Office active lock and temporary working files (e.g., ~$document.docx)
+~$*
+~*.*
+*~*
+
+# General temporary files spawned by Outlook/Office
+*.tmp
+*.temp
+*.lnk
+
