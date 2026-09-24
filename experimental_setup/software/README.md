@@ -32,10 +32,16 @@ The following Python packages are required:
 
 ## Usage
 
-1. Open `thermalCamera.vi`.
-2. Run the VI.
-3. Wait for the terminal to indicate that camera calibration has completed and temperature measurements are reliable.
-4. Press **Record** to begin recording thermal data.
+1. Open "thermal_optical_camera.vi".
+2. Create a destination folder for the optical images for each time you run the VI. (Folder1, Folder2, Folder3, etc...)
+3. Enter "1" for capture intervals for both thermal and optical camera.
+4. Run the VI. Optical camera will begin capturing.
+5. Wait for the terminal to indicate that camera calibration has completed and temperature measurements are reliable.
+6. Press "Record" button on front panel to begin recording thermal data.
+7. Press "Stop Recording" button to save thermal recording.
+8. Stop the VI. Optical camera will stop writing files.
+9. Open "...\software\Recordings" folder to verify npz file has been written.
+10. Open the python workspace and run npzProcessing.py. Images will written to "...\software\npz Processor\Images" folder.
 
 ## Recording Format
 
