@@ -31,6 +31,7 @@ This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 Intern
 @Misc{ARTSLabDatasetDatasetLPBFThin,  
   author = {{ARTS-L}ab},  
   title  = {Dataset LPBF Thin Wall and Cube Thermal Optical Monitoring},  
+  howpublished = {GitHub},   
   groups = {{ARTS-L}ab},  
   note = {Accessed: 20xx-xx-xx},  
   url    = {https://github.com/Dataset-LPBF-Thin-Wall-and-Cube-Thermal-Optical-Monitoring},  
