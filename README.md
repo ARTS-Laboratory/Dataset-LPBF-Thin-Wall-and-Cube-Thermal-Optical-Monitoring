@@ -9,16 +9,8 @@ Setup of the in situ monitoring system for laser-based powder bed fusion additiv
 </p>
 
 
-
-
-## [Data](data)
+## [Tests](test)
 Thermal and optical monitoring data collected during the LPBF builds.
-
-## [Experimental Setup](experimental_setup)
-Images, diagrams, hardware documentation, LabVIEW code, camera acquisition scripts, and other files used to configure and operate the experimental setup. Additional system design information is available [here]([experimental_setup](https://github.com/ARTS-Laboratory/LPBF-Observer)).
-
-## [Build Files](build_files)
-CAD, CAM, and other build files defining the printed specimens, scan paths, process parameters, and related build configurations.
 
 
 ## Licensing and Citation
