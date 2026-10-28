@@ -13,11 +13,11 @@ import matplotlib.pyplot as plt
 # ==========================================
 
 # Folder containing binary images
-INPUT_FOLDER = Path(r"C:\OpticalTestFolder\BIN")
+INPUT_FOLDER = Path(r".\raw")
 folder_path = INPUT_FOLDER
 
 # PNG files will be saved inside this folder
-OUTPUT_FOLDER = INPUT_FOLDER / "Converted_PNG"
+OUTPUT_FOLDER = INPUT_FOLDER / "processed"
 
 # Optical camera image dimensions
 WIDTH = 5472
