@@ -1,4 +1,4 @@
 
 # Build Files
 
-This folder contains CAD files and other process files used for the experiment.
+This folder contains sliced files which can be used for 3D LPBF printing.
