@@ -2,7 +2,6 @@
 from pathlib import Path
 import numpy as np
 import cv2
-import os
 import re
 import struct
 import zlib
@@ -13,11 +12,11 @@ import matplotlib.pyplot as plt
 # ==========================================
 
 # Folder containing binary images
-INPUT_FOLDER = Path(r".\raw")
-folder_path = INPUT_FOLDER
+BASE_FOLDER = Path(__file__).resolve().parent
+INPUT_FOLDER = BASE_FOLDER / "raw"
 
-# PNG files will be saved inside this folder
-OUTPUT_FOLDER = INPUT_FOLDER / "processed"
+# Converted PNGs are saved alongside raw and curated under processed/optical images
+OUTPUT_FOLDER = BASE_FOLDER / "processed" / "optical images"
 
 # Optical camera image dimensions
 WIDTH = 5472
@@ -246,10 +245,10 @@ num_files = None
 
 timestamps = []
 
-for filename in os.listdir(folder_path):
+for binary_path in files:
 
-    # Match filenames like optical_0000.bin
-    match = re.match(r"^optical_(\d+)\.bin$", filename, re.IGNORECASE)
+    # Match source filenames like optical_0000.bin
+    match = re.match(r"^optical_(\d+)\.bin$", binary_path.name, re.IGNORECASE)
 
     if match:
         timestamp = int(match.group(1))
@@ -277,37 +276,38 @@ image_number = np.arange(2, len(timestamps) + 1)
 # -----------------------------------
 
 if len(dt) == 0:
-    raise ValueError("At least two matching image files are required.")
+    print("\nSkipping time-step plot: at least two optical_<timestamp>.bin files are required.")
+else:
 
-print(f"Number of images analyzed: {len(timestamps)}")
-print(f"Average time step: {np.mean(dt):.3f} ms")
-print(f"Minimum time step: {np.min(dt):.3f} ms")
-print(f"Maximum time step: {np.max(dt):.3f} ms")
-print(f"Standard deviation: {np.std(dt):.3f} ms")
+    print(f"Number of images analyzed: {len(timestamps)}")
+    print(f"Average time step: {np.mean(dt):.3f} ms")
+    print(f"Minimum time step: {np.min(dt):.3f} ms")
+    print(f"Maximum time step: {np.max(dt):.3f} ms")
+    print(f"Standard deviation: {np.std(dt):.3f} ms")
 
-# -----------------------------------
-# PLOT TIME STEP FLUCTUATIONS
-# -----------------------------------
+    # -----------------------------------
+    # PLOT TIME STEP FLUCTUATIONS
+    # -----------------------------------
 
-plt.figure(figsize=(12, 5))
+    plt.figure(figsize=(12, 5))
 
-plt.plot(image_number, dt, '-o',
-         markersize=3,
-         linewidth=1,
-         color='blue',
-         label='Actual Time Step')
+    plt.plot(image_number, dt, '-o',
+             markersize=3,
+             linewidth=1,
+             color='blue',
+             label='Actual Time Step')
 
-plt.axhline(np.mean(dt),
-            color='red',
-            linestyle='--',
-            linewidth=1.5,
-            label=f'Average = {np.mean(dt):.2f} ms')
+    plt.axhline(np.mean(dt),
+                color='red',
+                linestyle='--',
+                linewidth=1.5,
+                label=f'Average = {np.mean(dt):.2f} ms')
 
-plt.xlabel("Image Number")
-plt.ylabel("Time Step (ms)")
-plt.title("Optical Camera Acquisition Time Step Fluctuations")
+    plt.xlabel("Image Number")
+    plt.ylabel("Time Step (ms)")
+    plt.title("Optical Camera Acquisition Time Step Fluctuations")
 
-plt.grid(True, alpha=0.3)
-plt.legend()
-plt.tight_layout()
-plt.show()
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
