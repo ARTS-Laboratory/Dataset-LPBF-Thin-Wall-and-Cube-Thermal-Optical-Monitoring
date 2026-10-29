@@ -23,7 +23,7 @@ SERVER_STATE_PATH = BASE_DIR.parent / "last_recording.json"
 # Store converted PNG images in processed/thermal images.
 OUTPUT_IMAGE_PATH = BASE_DIR / "processed" / "thermal images"
 # Preserve the existing CSV export capability in processed/thermal images/CSV.
-OUTPUT_CSV_PATH = BASE_DIR / "processed"/ "thermal images" / "CSV"
+#OUTPUT_CSV_PATH = BASE_DIR / "processed"/ "thermal images" / "CSV"
 
 # one PNG per NPZ. Timing is controlled by LabVIEW, not this exporter.
 # A larger interval is supported only for legacy multi-frame 'frames' NPZs;

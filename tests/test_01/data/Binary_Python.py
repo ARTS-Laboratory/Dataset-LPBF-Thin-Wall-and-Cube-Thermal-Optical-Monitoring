@@ -28,7 +28,7 @@ CHANNELS = 1
 
 # For 8-bit images: np.uint8
 # For 16-bit images: np.uint16
-DATA_TYPE = np.uint8
+DATA_TYPE = np.uint16
 
 # PNG compression: 0 (fastest) to 9 (smallest)
 PNG_COMPRESSION = 1
