@@ -5,7 +5,7 @@ This folder contains CAD files and other process files used for the experiment.
 
 <img width="624" height="336" alt="Assembly_test_10-29-2026" src="https://github.com/user-attachments/assets/1e27d62d-68dd-4441-8ff7-2aad0e794085" />
 
-Thin wall arrangment
+Thin wall arrangment :
 
 <img width="451" height="673" alt="image" src="https://github.com/user-attachments/assets/f351b46f-b0e0-43eb-a192-aaa04b968038" />
 
