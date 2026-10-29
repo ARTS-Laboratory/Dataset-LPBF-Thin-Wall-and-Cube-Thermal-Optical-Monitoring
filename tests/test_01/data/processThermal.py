@@ -1,16 +1,12 @@
-import csv
+""" thermal NPZ converter. Reads .npz from raw folder and writes PNGs to ./processed/thermal images folder.
+"""
+
 import os
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-
+import cv2
 import numpy as np
-
-try:
-    import cv2
-except ImportError:  # Pillow/Matplotlib fallback is used below.
-    cv2 = None
-
 
 def clear_terminal():
     if os.name == "nt":
@@ -40,10 +36,7 @@ def _scalar_from_npz(data, key, default=None):
 
 
 def loadRecording(path):
-    """Load Austin's single-frame NPZ or a legacy multi-frame recording.
-
-    Austin's time_unix_ns is software SAVE time, not camera exposure time.
-    A single-frame file has no within-file capture interval.
+    """Load a thermal recording from an NPZ file. single-frame file has no within-file capture interval.
     """
     path = Path(path)
     print(f"Loading {path.name}.")
@@ -162,7 +155,6 @@ def loadData(path, name=None):
 def selectEqualIntervalFrames(elapsed_s, interval_s=None):
     """
     Select the recorded frame nearest to each equal target time.
-
     interval_s=None exports every stored frame. This is the preferred setting
     for NPZ files produced by the interval-enabled acquisition code because
     those frames were already captured at the requested equal interval.
@@ -230,7 +222,7 @@ def saveImages(
     temp_min_c=None,
     temp_max_c=None,
 ):
-    """Export timestamped thermal PNG images; no video is created."""
+    """Export timestamped thermal PNG images"""
     started = time.perf_counter()
     path = Path(path)
     recording = loadRecording(path)
@@ -239,7 +231,7 @@ def saveImages(
 
     if recording["recording_format"] == "single_frame" and interval_s is not None:
         raise ValueError(
-            "Use EXPORT_INTERVAL_S = None for Austin's one-frame-per-file NPZs. "
+            "Use EXPORT_INTERVAL_S = None for one-frame-per-file NPZs. "
             "Capture timing is controlled by LabVIEW; this exporter processes each file."
         )
 
@@ -259,11 +251,10 @@ def saveImages(
             f"Invalid temperature scale: minimum={low_c}, maximum={high_c}."
         )
 
-    folder = Path(output) / path.stem
+    # Save single-frame PNGs directly in thermal images, without per-file subfolders.
+    # Keep legacy multi-frame recordings in separate folders to avoid naming collisions.
+    folder = Path(output) if recording["recording_format"] == "single_frame" else Path(output) / path.stem
     folder.mkdir(parents=True, exist_ok=True)
-    summary_path = folder / "image_index.csv"
-
-    rows = []
     for image_number, (frame_index, target_s, frame) in enumerate(
         zip(indices, target_times_s, selected), start=1
     ):
@@ -281,29 +272,6 @@ def saveImages(
         image_path = folder / filename
         _write_inferno_png(image_8bit, image_path)
 
-        rows.append(
-            {
-                "image_number": image_number,
-                "source_frame_index": int(frame_index),
-                "target_time_s": f"{target_s:.9f}",
-                "actual_time_s": f"{actual_s:.9f}",
-                "timing_error_s": f"{actual_s - target_s:.9f}",
-                "save_time_unix_ns": recording["save_time_unix_ns"] if recording["save_time_unix_ns"] is not None else "",
-                "save_time_utc": recording["timestamp"] if recording["recording_format"] == "single_frame" else "",
-                "minimum_temperature_c": f"{np.min(frame[np.isfinite(frame)]):.6f}",
-                "maximum_temperature_c": f"{np.max(frame[np.isfinite(frame)]):.6f}",
-                "mean_temperature_c": f"{np.mean(frame[np.isfinite(frame)]):.6f}",
-                "scale_min_c": f"{low_c:.6f}",
-                "scale_max_c": f"{high_c:.6f}",
-                "png_file": filename,
-            }
-        )
-
-    with summary_path.open("w", newline="", encoding="utf-8") as csv_file:
-        writer = csv.DictWriter(csv_file, fieldnames=rows[0].keys())
-        writer.writeheader()
-        writer.writerows(rows)
-
     hottest_local_index = int(np.argmax(np.max(np.where(np.isfinite(selected), selected, -np.inf), axis=(1, 2))))
     hottest_source_index = int(indices[hottest_local_index])
     elapsed = time.perf_counter() - started
@@ -319,25 +287,179 @@ def saveImages(
 
     return {
         "folder": folder,
-        "summary_csv": summary_path,
         "exported_indices": indices,
         "target_times_s": target_times_s,
         "hottest_source_index": hottest_source_index,
     }
 
 
-def saveCSV(path, name, output, frameIndex):
-    """Save the raw temperature matrix for one selected source frame."""
-    folder = Path(output) / Path(name).stem
-    folder.mkdir(parents=True, exist_ok=True)
+# ================================================================
+# MAIN PROCESSING APPLICATION
+# ================================================================
 
-    frames = loadRecording(path)["frames"]
-    frameIndex = int(frameIndex)
-    if not 0 <= frameIndex < frames.shape[0]:
-        raise IndexError(
-            f"Frame index {frameIndex} is outside 0 to {frames.shape[0] - 1}."
+"""Convert thermal .npz files from ./raw to ./processed/thermal images.
+
+"""
+
+import argparse
+import json
+
+# ---------------------------------------------------------------------------
+# USER SETTINGS
+# ---------------------------------------------------------------------------
+BASE_DIR = Path(__file__).resolve().parent
+
+# Always use the raw folder beside this script when run without arguments.
+INPUT_PATH = BASE_DIR / "raw"
+SERVER_STATE_PATH = BASE_DIR.parent / "last_recording.json"
+
+# Store converted PNG images in processed/thermal images.
+OUTPUT_IMAGE_PATH = BASE_DIR / "processed" / "thermal images"
+
+
+# one PNG per NPZ. Timing is controlled by LabVIEW, not this exporter.
+# A larger interval is supported only for legacy multi-frame 'frames' NPZs;
+EXPORT_INTERVAL_S = None
+
+# None/None uses a min/max scale per NPZ (per image for thermal server).
+# For identical colors across different tests, set fixed limits such as
+# TEMPERATURE_MIN_C = 20.0 and TEMPERATURE_MAX_C = 120.0.
+TEMPERATURE_MIN_C = None
+TEMPERATURE_MAX_C = None
+
+
+
+def read_server_input_folder():
+    """Read shared location data without importing or running the camera server."""
+    try:
+        state = json.loads(SERVER_STATE_PATH.read_text(encoding="utf-8"))
+    except FileNotFoundError as error:
+        raise RuntimeError(
+            f"No server folder information was found at {SERVER_STATE_PATH}. "
+            "Run the updated thermalServer.py and save at least one thermal NPZ first. "
+            "Alternatively, pass a folder argument or use --choose-folder."
+        ) from error
+    except (OSError, ValueError) as error:
+        raise RuntimeError(
+            f"Cannot read server folder information at {SERVER_STATE_PATH}: {error}. "
+            "Save another frame with the updated server or pass a folder explicitly."
+        ) from error
+    folder = state.get("input_folder") if isinstance(state, dict) else None
+    if not isinstance(folder, str) or not folder.strip():
+        raise RuntimeError(f"Missing valid input_folder in {SERVER_STATE_PATH}.")
+    path = Path(folder)
+    if not path.is_absolute():
+        raise RuntimeError(f"Expected an absolute folder path in {SERVER_STATE_PATH}.")
+    print(f"Using recording folder reported by thermalServer.py: {path}")
+    return path
+
+
+def choose_input_folder():
+    """Ask for the actual recording folder; do not assume a script-relative path."""
+    try:
+        import tkinter as tk
+        from tkinter import filedialog
+    except ImportError as error:
+        raise RuntimeError(
+            'Folder selection is unavailable. Pass the LabVIEW folder explicitly, '
+            'for example: python npzProcessing.py "C:\\CameraData\\Test_019\\raw"'
+        ) from error
+
+    root = None
+    try:
+        root = tk.Tk()
+        root.withdraw()
+        selected = filedialog.askdirectory(
+            parent=root,
+            title="Select the folder entered in LabVIEW Output Folder",
+            initialdir=str(BASE_DIR),
+            mustexist=True,
+        )
+    except tk.TclError as error:
+        raise RuntimeError(
+            'Cannot open the folder chooser. Pass the LabVIEW folder explicitly, '
+            'for example: python npzProcessing.py "C:\\CameraData\\Test_019\\raw"'
+        ) from error
+    finally:
+        if root is not None:
+            root.destroy()
+    return Path(selected) if selected else None
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(
+        description="Convert thermal NPZ files from raw to processed/thermal images."
+    )
+    parser.add_argument(
+        "folder",
+        nargs="?",
+        type=Path,
+        help="Optional input folder; defaults to raw beside this Python script.",
+    )
+    parser.add_argument(
+        "--choose-folder", action="store_true",
+        help="Choose a folder manually instead of using the last server folder.",
+    )
+    args = parser.parse_args(argv)
+    if args.folder is not None and args.choose_folder:
+        parser.error("Use either a folder argument or --choose-folder, not both.")
+    # Keep terminal logs visible.
+
+    try:
+        if args.choose_folder:
+            input_path = choose_input_folder()
+            if input_path is None:
+                print("No folder selected. Nothing was processed.")
+                return 0
+        elif args.folder is not None:
+            input_path = args.folder
+        elif INPUT_PATH is not None:
+            input_path = INPUT_PATH
+        else:
+            input_path = read_server_input_folder()
+    except RuntimeError as error:
+        parser.error(str(error))
+
+    input_path = Path(input_path).expanduser().resolve()
+    if not input_path.is_dir():
+        parser.error(f"Input folder does not exist or is not a directory: {input_path}")
+
+    # Read completed NPZ files directly in the selected folder. Atomic-save
+    # temporary files such as Thermal_0001.npz.tmp are excluded by this pattern.
+    npz_paths = sorted(path for path in input_path.glob("*.npz") if path.is_file())
+    if not npz_paths:
+        parser.error(
+            f"No .npz recordings were found directly in {input_path}. "
+            "Select the exact folder containing the saved thermal files."
         )
 
-    output_file = folder / f"{Path(name).stem}_frame{frameIndex:06d}.csv"
-    np.savetxt(output_file, frames[frameIndex], delimiter=",", fmt="%.6f")
-    print(f"Saved raw temperature CSV for frame {frameIndex} to {output_file}.\n")
+    OUTPUT_IMAGE_PATH.mkdir(parents=True, exist_ok=True)
+
+    print(f"NPZ input folder: {input_path}")
+    print(f"Found {len(npz_paths)} NPZ recording(s).")
+    print(f"PNG output directory: {OUTPUT_IMAGE_PATH}")
+    print()
+
+    successful = 0
+    failed = 0
+    for path in npz_paths:
+        print("-" * 70)
+        try:
+            saveImages(
+            path=path,
+            output=OUTPUT_IMAGE_PATH,
+            interval_s=EXPORT_INTERVAL_S,
+            temp_min_c=TEMPERATURE_MIN_C,
+            temp_max_c=TEMPERATURE_MAX_C,
+            )
+            successful += 1
+        except Exception as exc:
+            failed += 1
+            print(f"ERROR processing {path.name}: {exc}")
+
+    print(f"Completed: {successful} NPZ files converted successfully, {failed} failed")
+    return 0 if failed == 0 else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
