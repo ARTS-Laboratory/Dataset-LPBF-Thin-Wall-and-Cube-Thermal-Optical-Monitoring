@@ -297,7 +297,7 @@ def saveImages(
 # MAIN PROCESSING APPLICATION
 # ================================================================
 
-"""Convert thermal .npz files from ./raw to ./processed/thermal images.
+"""Convert thermal .npz files from ./raw to ./processed.
 
 """
 
@@ -314,7 +314,7 @@ INPUT_PATH = BASE_DIR / "raw"
 SERVER_STATE_PATH = BASE_DIR.parent / "last_recording.json"
 
 # Store converted PNG images in processed/thermal images.
-OUTPUT_IMAGE_PATH = BASE_DIR / "processed" / "thermal images"
+OUTPUT_IMAGE_PATH = BASE_DIR / "processed"
 
 
 # one PNG per NPZ. Timing is controlled by LabVIEW, not this exporter.

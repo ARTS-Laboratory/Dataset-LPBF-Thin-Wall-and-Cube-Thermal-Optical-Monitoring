@@ -16,7 +16,7 @@ BASE_FOLDER = Path(__file__).resolve().parent
 INPUT_FOLDER = BASE_FOLDER / "raw"
 
 # Converted PNGs are saved alongside raw and curated under processed/optical images
-OUTPUT_FOLDER = BASE_FOLDER / "processed" / "optical images"
+OUTPUT_FOLDER = BASE_FOLDER / "processed" 
 
 # Optical camera image dimensions
 WIDTH = 5472

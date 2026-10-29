@@ -5,8 +5,8 @@ Contains raw, processed, and curated thermal and optical monitoring data, along 
 ## Raw
 
 - Contains original thermal (`.npz`) and optical (`.bin`) data collected during the experiment. 
-- Run 'Binary_Python.py' to create .png files from  .bin files captured by optical camera. 
-- Run 'npzProcessing.py' to create .png files from .npz files captured by thermal camera. 
+- Run 'processOptical.py' to create .png files from  .bin files captured by optical camera. 
+- Run 'processThermal.py' to create .png files from .npz files captured by thermal camera. 
 
 ## Processed
 
