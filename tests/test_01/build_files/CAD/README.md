@@ -3,7 +3,8 @@
 
 This folder contains CAD files and other process files used for the experiment.
 
-<img width="2275" height="1225" alt="Assembly_test_10-29-2026" src="https://github.com/user-attachments/assets/2d68ce03-9e34-404f-8974-8f815070f516" />
+<img width="2205" height="1225" alt="Assembly_test_10-29-2026" src="https://github.com/user-attachments/assets/35d4fcb4-4fec-4ce7-b90f-1362ba7e09f6" />
+
 
 
 
