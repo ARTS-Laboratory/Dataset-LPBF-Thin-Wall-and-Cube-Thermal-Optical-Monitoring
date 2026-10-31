@@ -167,6 +167,10 @@ def convert_binary_to_png(binary_path):
         OUTPUT_FOLDER / (binary_path.stem + ".png")
     )
 
+    # Convert 12-bit camera data to full-range 16-bit PNG for adjusting the brightness and contrast in image viewers
+    image = (image.astype(np.uint16) << 4)
+
+
     # Encode image as PNG
     success, encoded = cv2.imencode(
         ".png",
