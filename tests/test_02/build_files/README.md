@@ -3,11 +3,11 @@
 
 This folder contains CAD files and other process files used for the experiment.
 
-Link : 
+Path : tests/test_02/build_files/media/test_layout.png
 
 Thin wall arrangment :
-Link :
+Path : tests/test_02/build_files/media/thin_wall_layout.png
 
 
 Cube arrangment :
-Link :
+Path : tests/test_02/build_files/media/Cube_layout.png
