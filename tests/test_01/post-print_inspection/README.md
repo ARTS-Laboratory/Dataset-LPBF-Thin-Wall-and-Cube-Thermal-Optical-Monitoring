@@ -1,6 +1,6 @@
 # Post-Print Inspection
 
-This folder contains post-print inspection photographs of the LPBF build plate after completion of Test 01.
+This folder contains post-print inspection photographs and data of the LPBF build plate after completion of Test 01.
 
 ## Contents
 
