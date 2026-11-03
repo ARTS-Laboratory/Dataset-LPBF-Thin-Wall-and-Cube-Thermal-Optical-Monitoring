@@ -3,18 +3,18 @@
 
 This folder contains CAD files and other process files used for the experiment.
 
-Build plate test layout:
+## Build Plate Test Layout
 
-https://github.com/ARTS-Laboratory/Dataset-LPBF-Thin-Wall-and-Cube-Thermal-Optical-Monitoring/blob/4acc76c1c5640629bf808661cf4b3cf3a68f3dfd/tests/test_02/build_files/media/test_layout.png
+![Build Plate Test Layout](media/test_layout.png)
 
+## Thin Wall Arrangement
 
-CAD : tests/test_02/build_files/Assembly_test_02.iam
+![Thin Wall Arrangement](media/thin_wall_layout.png)
 
-Path : tests/test_02/build_files/media/test_layout.png
+## Cube Arrangement
 
-Thin wall arrangment :
-Path : tests/test_02/build_files/media/thin_wall_layout.png
+![Cube Arrangement](media/Cube_layout.png)
 
+## CAD Files
 
-Cube arrangment :
-Path : tests/test_02/build_files/media/Cube_layout.png
+CAD Assembly: `Assembly_test_02.iam`
