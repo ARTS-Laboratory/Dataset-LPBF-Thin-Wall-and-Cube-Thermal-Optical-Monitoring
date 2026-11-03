@@ -5,7 +5,7 @@ This folder contains CAD files and other process files used for the experiment.
 
 ## Build Plate Test Layout
 
-![Build Plate Test Layout](media/test_layout.png)
+![Build Plate Test Layout](/test_layout.png)
 
 ## Thin Wall Arrangement
 
