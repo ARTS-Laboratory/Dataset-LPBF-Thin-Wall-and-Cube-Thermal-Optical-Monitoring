@@ -9,11 +9,11 @@ This folder contains CAD files and other process files used for the experiment.
 
 ## Thin Wall Arrangement
 
-![Thin Wall Arrangement](media/thin_wall_layout.png)
+![Thin Wall Arrangement](thin_wall_layout.png)
 
 ## Cube Arrangement
 
-![Cube Arrangement](media/Cube_layout.png)
+![Cube Arrangement](Cube_layout.png)
 
 ## CAD Files
 
