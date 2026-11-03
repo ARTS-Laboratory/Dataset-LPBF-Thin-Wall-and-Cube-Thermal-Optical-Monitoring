@@ -3,15 +3,18 @@
 
 This folder contains CAD files and other process files used for the experiment.
 
-Build plate test layout:
+## Build Plate Test Layout
 
-CAD : tests/test_02/build_files/Assembly_test_02.iam
+![Build Plate Test Layout](test_layout.png)
 
-Path : tests/test_02/build_files/media/test_layout.png
+## Thin Wall Arrangement
 
-Thin wall arrangment :
-Path : tests/test_02/build_files/media/thin_wall_layout.png
+![Thin Wall Arrangement](media/thin_wall_layout.png)
 
+## Cube Arrangement
 
-Cube arrangment :
-Path : tests/test_02/build_files/media/Cube_layout.png
+![Cube Arrangement](media/Cube_layout.png)
+
+## CAD Files
+
+CAD Assembly: `Assembly_test_02.iam`
