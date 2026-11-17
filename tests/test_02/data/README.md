@@ -15,3 +15,7 @@ Contains PNG images generated from the raw thermal and optical data.
 ## Curated
 
 Contains selected PNG images from the processed dataset for analysis, visualization, and machine learning.
+
+## Profilometer scan
+
+Contains the profilometer scans of the build plate from test_02.
