@@ -18,4 +18,4 @@ Contains selected PNG images from the processed dataset for analysis, visualizat
 
 ## Profilometer scan
 
-Contains the profilometer scans of the build plate from test_01.
+Contains the profilometer scans of the build plate.
